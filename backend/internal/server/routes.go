@@ -20,5 +20,7 @@ func NewRouter() *gin.Engine {
 	// 汎用ハンドラのエンドポイント
 	r.GET("/", handler.HelloWorldHandler)
 
+	r.POST("/register", handler.Register)
+
 	return r
 }
