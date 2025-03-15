@@ -4,6 +4,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/yoshioka0101/spot_map/internal/handler"
+	"github.com/yoshioka0101/spot_map/internal/database"
 )
 
 func NewRouter() *gin.Engine {
@@ -20,7 +21,9 @@ func NewRouter() *gin.Engine {
 	// 汎用ハンドラのエンドポイント
 	r.GET("/", handler.HelloWorldHandler)
 
+	// MySQL に接続
+	database.InitDB()
 	r.POST("/register", handler.Register)
-
+	r.POST("/login", handler.Login)
 	return r
 }
