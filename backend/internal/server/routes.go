@@ -18,12 +18,20 @@ func NewRouter() *gin.Engine {
 		AllowCredentials: true,
 	}))
 
-	// 汎用ハンドラのエンドポイント
-	r.GET("/", handler.HelloWorldHandler)
-
 	// MySQL に接続
 	database.InitDB()
+	db := database.GetDB()
+
+	// DB をコンテキストにセットするミドルウェア
+	r.Use(func(c *gin.Context) {
+		c.Set("db", db)
+		c.Next()
+	})
+
+	// エンドポイントの登録
+	r.GET("/", handler.HelloWorldHandler)
 	r.POST("/register", handler.Register)
 	r.POST("/login", handler.Login)
+
 	return r
 }
